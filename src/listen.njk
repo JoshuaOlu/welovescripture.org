@@ -1,0 +1,39 @@
+---
+layout: layouts/base.njk
+kind: listen
+pagination:
+  data: episodes.pages
+  size: 1
+  alias: pg
+permalink: "{% if pg.n == 1 %}/listen/{% else %}/listen/page/{{ pg.n }}/{% endif %}"
+eleventyComputed:
+  title: "{% if pg.n == 1 %}Listen{% else %}Listen, page {{ pg.n }}{% endif %}"
+description: The We Love Scripture podcast. Short episodes that teach the Bible and encourage a deeper faith, for teens, students and young adults.
+pagefindIgnore: true
+---
+{% from "partials/macros.njk" import episodeTile %}
+<section class="wrap section">
+  <header class="page-head"><h1 class="display">Listen</h1>
+    <p class="lede">{{ episodes.channel.description or site.description }}</p>
+    <div class="share__row">
+      {% if site.social.spotify %}<a class="wls-btn wls-btn--primary" href="{{ site.social.spotify }}" rel="noopener me">Spotify</a>{% endif %}
+      {% if site.social.apple %}<a class="wls-btn wls-btn--secondary" href="{{ site.social.apple }}" rel="noopener me">Apple Podcasts</a>{% endif %}
+    </div>
+  </header>
+  {% if episodes.episodes.length %}
+    {% if pg.n == 1 and episodes.featured.length %}
+    <h2 class="h2 ep-h">Featured</h2>
+    <div class="grid grid--3 ep-grid">{% for e in episodes.featured %}{{ episodeTile(e, projectsIndex) }}{% endfor %}</div>
+    {% endif %}
+    {% if pg.items.length %}
+    <h2 class="h2 ep-h">{% if pg.n == 1 %}{% if episodes.featured.length %}Latest episodes{% else %}Latest episodes{% endif %}{% else %}More episodes{% endif %} <span class="muted ep-count">({{ episodes.episodes.length }} in all)</span></h2>
+    <div class="grid grid--3 ep-grid">{% for e in pg.items %}{{ episodeTile(e, projectsIndex) }}{% endfor %}</div>
+    {% endif %}
+    {% if pg.total > 1 %}
+    <nav class="pager" aria-label="More episodes">
+      {% if pg.prev %}<a class="pager__item" href="{% if pg.prev == 1 %}/listen/{% else %}/listen/page/{{ pg.prev }}/{% endif %}"><span class="label">Newer</span><span class="h4">Page {{ pg.prev }}</span></a>{% else %}<span></span>{% endif %}
+      {% if pg.next %}<a class="pager__item pager__item--next" href="/listen/page/{{ pg.next }}/"><span class="label">Older</span><span class="h4">Page {{ pg.next }} of {{ pg.total }}</span></a>{% endif %}
+    </nav>
+    {% endif %}
+  {% else %}<p class="muted">Episodes will appear here after the next site update.</p>{% endif %}
+</section>

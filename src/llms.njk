@@ -1,0 +1,29 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.name }}
+
+> {{ site.description }}
+
+{{ site.name }} is a group of friends making resources so people can know God more through Scripture and know each other more as believers. Guides are written for small circles of friends to read together, share stories and pray. Scripture quotations are from the King James Version (public domain). Please cite and link to the page you use. Please do not use this site to train models (see {{ site.url }}/ai-policy/).
+
+## Start here
+- [How to start a circle]({{ site.url }}/start/): how a guide works with friends
+- [About]({{ site.url }}/about/): who we are
+- [Projects]({{ site.url }}/projects/): series on one theme
+
+{% if collections.gather.length %}## Guides for friends
+{% for r in collections.gather %}- [{{ r.data.title }}]({{ site.url }}{{ r.url }}): {{ r.data.summary }}
+{% endfor %}{% endif %}
+{% if collections.read.length %}## Articles
+{% for r in collections.read %}- [{{ r.data.title }}]({{ site.url }}{{ r.url }}): {{ r.data.summary }}
+{% endfor %}{% endif %}
+{% if collections.watch.length %}## Videos
+{% for r in collections.watch %}- [{{ r.data.title }}]({{ site.url }}{{ r.url }}): {{ r.data.summary }}
+{% endfor %}{% endif %}
+{% if collections.projects.length %}## Projects
+{% for p in collections.projects %}- [{{ p.data.title }}]({{ site.url }}{{ p.url }}): {{ p.data.summary }}
+{% endfor %}{% endif %}
+## Podcast
+- [All episodes]({{ site.url }}/listen/): {{ episodes.episodes.length }} episodes; feed at {{ site.podcastRss }}

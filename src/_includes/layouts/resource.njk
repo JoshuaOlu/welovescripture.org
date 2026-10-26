@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/macros.njk" import chip, resourceCard %}
+{% set proj = projectsIndex[project] if project else null %}
+{% set sib = collections.resources | siblings(project, page.url) if project else null %}
+{% set yt = youtube | ytId if youtube else '' %}
+<article class="wrap wrap--reading resource" data-type="{{ type }}">
+  <div class="print-only print-mast"><span style="display:flex;align-items:center;gap:10px"><img src="/assets/img/wls-mark-teal.svg" alt=""><b>{{ site.name }}</b></span><span>{{ site.url | replace('https://', '') }}</span></div>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a><span aria-hidden="true">/</span>
+    {% if proj %}<a href="/projects/{{ project }}/">{{ proj.title }}</a>{% else %}<a href="/{{ type | typeDir }}/">{{ type | typeLabel }}</a>{% endif %}
+  </nav>
+  <header class="page-head">
+    {{ chip(type) }}
+    <h1 class="display">{{ title }}</h1>
+    {% if summary %}<p class="lede">{{ summary }}</p>{% endif %}
+    <p class="meta">{{ page.date | dateDisplay }}{% if type != 'watch' %} · {{ page.rawInput | readingTime }} min read{% endif %}{% if proj %} · Part of <a href="/projects/{{ project }}/">{{ proj.title }}</a>{% if sib and sib.index %} ({{ sib.index }} of {{ sib.all.length }}){% endif %}{% endif %}</p>
+  </header>
+
+  {% if yt %}
+  <div class="video" data-youtube="{{ yt }}" data-title="{{ title }}">
+    <img src="https://i.ytimg.com/vi/{{ yt }}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/{{ yt }}/hqdefault.jpg'" alt="" loading="lazy" decoding="async">
+    <a class="video__play" href="https://www.youtube.com/watch?v={{ yt }}" rel="noopener" aria-label="Play {{ title }} on YouTube"><span>{% icon 'play' %}</span></a>
+  </div>
+  {% endif %}
+
+  {% if type == 'gather' %}
+  <aside class="howto" aria-label="How to use this guide"><p class="label">How to use this guide</p><p>{{ site.guideHowTo }}</p></aside>
+  {% endif %}
+
+  <div class="notes-bar" data-notes-bar><p><b>Your notes are private.</b> What you type in the note boxes is saved only in this browser, on this device. It is never sent to us or anyone else, and it disappears if you clear your browser data.</p><button class="wls-btn wls-btn--secondary wls-btn--small" type="button" data-print>{% icon 'print' %}Print with my notes</button><button class="wls-btn wls-btn--secondary wls-btn--small" type="button" data-clear-notes>Clear my notes</button></div>
+
+  <div class="prose">{{ content | safe }}</div>
+
+  <p class="print-only print-foot">{{ title }} · {{ site.url }}{{ page.url }} · We love Scripture, read and prayed together.</p>
+
+  <div class="share" data-share>
+    <p class="label">Share this with a friend</p>
+    <div class="share__row">
+      <a class="wls-btn wls-btn--secondary wls-btn--small" href="https://wa.me/?text={{ (title + ' ' + site.url + page.url) | urlencode }}" rel="noopener">WhatsApp</a>
+      <a class="wls-btn wls-btn--secondary wls-btn--small" href="https://x.com/intent/post?text={{ title | urlencode }}&url={{ (site.url + page.url) | urlencode }}" rel="noopener">X</a>
+      <a class="wls-btn wls-btn--secondary wls-btn--small" href="mailto:?subject={{ title | urlencode }}&body={{ (site.url + page.url) | urlencode }}">Email</a>
+      <button class="wls-btn wls-btn--secondary wls-btn--small" type="button" data-copy="{{ site.url }}{{ page.url }}">{% icon 'copy' %}Copy link</button>
+      {% if type == 'gather' %}<button class="wls-btn wls-btn--secondary wls-btn--small" type="button" data-print>{% icon 'print' %}Print guide</button>{% if env.pdf and pdf != false %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="/pdf/{{ page.fileSlug }}.pdf" download>{% icon 'print' %}Download PDF</a>{% endif %}{% endif %}
+    </div>
+  </div>
+
+  {% if sib and (sib.prev or sib.next) %}
+  <nav class="pager" aria-label="In this project">
+    {% if sib.prev %}<a class="pager__item" href="{{ sib.prev.url }}"><span class="label">Previous</span><span class="h4">{{ sib.prev.data.title }}</span></a>{% else %}<span></span>{% endif %}
+    {% if sib.next %}<a class="pager__item pager__item--next" href="{{ sib.next.url }}"><span class="label">Next</span><span class="h4">{{ sib.next.data.title }}</span></a>{% endif %}
+  </nav>
+  {% endif %}
+</article>
+
+{% set more = (collections.resources | byProject(project)) if project else collections.resources %}
+{% set others = more | except(page.url) | limit(3) %}
+<section class="section section--band" aria-labelledby="more-h">
+  <div class="wrap">
+    <h2 class="h2" id="more-h">{% if proj %}More in {{ proj.title }}{% else %}Keep going{% endif %}</h2>
+    {% if others.length %}<div class="grid grid--3">{% for r in others %}{{ resourceCard(r, projectsIndex) }}{% endfor %}</div>
+    {% else %}<p class="muted">More resources are on the way.</p>{% endif %}
+  </div>
+</section>

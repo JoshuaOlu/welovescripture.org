@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+kind: listing
+title: Projects
+description: Series of guides, articles, videos and episodes on one theme of Scripture, made for friends to work through together.
+permalink: /projects/
+pagefindIgnore: true
+---
+<section class="wrap section">
+  <header class="page-head"><h1 class="display">Projects</h1><p class="lede">A project is a series on one theme: guides to gather around, plus the articles, videos and episodes that go with them.</p></header>
+  {% if collections.projects.length %}
+  <div class="grid grid--3">
+    {% for p in collections.projects %}
+    {% set items = collections.resources | byProject(p.fileSlug) %}
+    <article class="wls-card">
+      <div class="wls-art wls-art--{{ 'deep' if p.data.color == 'teal' or not p.data.color else p.data.color }}" style="--lamp-x:{{ p.data.lampX or 78 }}%;--lamp-y:{{ p.data.lampY or 34 }}%"></div>
+      <div class="wls-card__body"><p class="label">Project</p><h2 class="wls-card__title"><a href="{{ p.url }}">{{ p.data.title }}</a></h2><p class="wls-card__desc">{{ p.data.summary }}</p><p class="wls-card__meta">{{ items.length }} {{ 'resource' if items.length == 1 else 'resources' }}</p></div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}<p class="muted">The first projects are being prepared. In the meantime, <a class="wls-link" href="/listen/">listen to the podcast</a>.</p>{% endif %}
+</section>

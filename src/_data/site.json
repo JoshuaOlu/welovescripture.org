@@ -1,0 +1,28 @@
+{
+  "name": "We Love Scripture",
+  "tagline": "Scripture, read and prayed together.",
+  "description": "Resources for friends who want to know God more in Scripture, and each other more in friendship: study guides, articles, videos and a podcast.",
+  "url": "https://welovescripture.org",
+  "locale": "en",
+  "podcastRss": "https://anchor.fm/s/e581bd08/podcast/rss",
+  "social": {
+    "instagram": "https://www.instagram.com/welovescripture",
+    "x": "https://x.com/welovescripture",
+    "apple": "https://podcasts.apple.com/us/podcast/we-love-scripture",
+    "spotify": "https://open.spotify.com/show/494197grKEZQHTwUszNIev",
+    "youtube": "https://www.youtube.com/@welovescripture"
+  },
+  "verification": {
+    "google": "",
+    "bing": ""
+  },
+  "analytics": {
+    "goatcounter": ""
+  },
+  "defaultTranslation": "King James Version",
+  "guideHowTo": "Gather with friends. Read the passage out loud, taking turns. Answer the questions to each other, not to the guide. End by praying for one another.",
+  "footerNote": "Scripture quotations are from the King James Version, which is in the public domain.",
+  "listen": {
+    "perPage": 12
+  }
+}

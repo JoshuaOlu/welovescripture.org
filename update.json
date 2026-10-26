@@ -1,0 +1,8 @@
+{
+ "name": "welovescripture-site",
+ "version": "1.4.0",
+ "requires": "1.3.0",
+ "remove": [
+  "update.json"
+ ]
+}

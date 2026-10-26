@@ -1,0 +1,7 @@
+[
+  { "label": "Projects", "url": "/projects/" },
+  { "label": "Read", "url": "/read/" },
+  { "label": "Watch", "url": "/watch/" },
+  { "label": "Listen", "url": "/listen/" },
+  { "label": "About", "url": "/about/" }
+]

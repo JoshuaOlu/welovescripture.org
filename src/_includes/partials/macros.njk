@@ -1,0 +1,71 @@
+{% macro chip(type) %}<span class="wls-chip wls-chip--{{ type }}">{% icon type %}{{ type | typeLabel }}</span>{% endmacro %}
+
+{% macro artStyle(slug, project) -%}
+{%- set l = slug | lamp -%}
+{%- set x = project.lampX if project and project.lampX else l.x -%}
+{%- set y = project.lampY if project and project.lampY else l.y -%}
+--lamp-x:{{ x }}%;--lamp-y:{{ y }}%
+{%- endmacro %}
+
+{% macro artClass(type, project) -%}
+{%- if project and project.color -%}{{ 'deep' if project.color == 'teal' else project.color }}
+{%- elif type == 'read' -%}sage{%- elif type == 'watch' or type == 'kids' -%}ember{%- else -%}deep{%- endif -%}
+{%- endmacro %}
+
+{% macro resourceCard(r, projects) %}
+{%- set project = projects[r.data.project] if r.data.project else null -%}
+{%- set yt = r.data.youtube | ytId if r.data.youtube else '' -%}
+<article class="wls-card" data-type="{{ r.data.type }}">
+  {% if r.data.image %}<div class="wls-art card-photo"><img src="{{ r.data.image }}" alt="" loading="lazy" decoding="async"></div>
+  {% elif yt %}<div class="wls-art card-photo"><img src="https://i.ytimg.com/vi/{{ yt }}/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="play-badge">{% icon 'play' %}</span></div>
+  {% else %}<div class="wls-art wls-art--{{ artClass(r.data.type, project) }}" style="{{ artStyle(r.fileSlug, project) }}"></div>{% endif %}
+  <div class="wls-card__body">
+    {{ chip(r.data.type) }}
+    <h3 class="wls-card__title"><a href="{{ r.url }}">{{ r.data.title }}</a></h3>
+    <p class="wls-card__desc">{{ r.data.summary }}</p>
+    <p class="wls-card__meta">{% if project %}{{ project.title }} · {% endif %}{{ r.date | dateDisplay }}</p>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro episodeTile(e, projects) %}
+<a class="ep-tile" href="/listen/{{ e.slug }}/">
+  <img class="ep-tile__img" src="/og/listen-{{ e.slug }}.png" alt="" width="1200" height="630" loading="lazy" decoding="async">
+  <span class="ep-tile__body">
+    <span class="wls-card__meta">{{ e.date | dateDisplay }} · {{ e.minutes }} min{% if e.project and projects[e.project] %} · {{ projects[e.project].title }}{% endif %}</span>
+    <span class="ep-tile__title">{{ e.title }}</span>
+  </span>
+</a>
+{% endmacro %}
+
+{% macro episodeRow(e, projects) %}
+<article class="ep-row">
+  <div class="ep-row__main">
+    <p class="wls-card__meta">{% if e.season %}Season {{ e.season }}{% if e.episode %}, episode {{ e.episode }}{% endif %} · {% endif %}{{ e.date | dateDisplay }} · {{ e.minutes }} min{% if e.project and projects[e.project] %} · {{ projects[e.project].title }}{% endif %}</p>
+    <h3 class="ep-row__title"><a href="/listen/{{ e.slug }}/">{{ e.title }}</a></h3>
+  </div>
+  <a class="icon-btn" href="/listen/{{ e.slug }}/" aria-label="Open {{ e.title }}">{% icon 'arrow' %}</a>
+</article>
+{% endmacro %}
+
+{% macro socialButtons(site) %}
+{% if site.social.youtube %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.youtube }}" rel="noopener me">YouTube</a>{% endif %}
+{% if site.social.spotify %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.spotify }}" rel="noopener me">Spotify</a>{% endif %}
+{% if site.social.apple %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.apple }}" rel="noopener me">Apple Podcasts</a>{% endif %}
+{% if site.social.instagram %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.instagram }}" rel="noopener me">Instagram</a>{% endif %}
+{% if site.social.x %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.x }}" rel="noopener me">X</a>{% endif %}
+{% endmacro %}
+
+{% macro counters(counters, collections, episodes) %}
+{% set shown = counters.items | shownOnly %}
+{% if counters.show and shown.length %}
+<section class="section section--band" aria-labelledby="counters-h">
+  <div class="wrap">
+    <h2 class="h2" id="counters-h">{{ counters.title }}</h2>
+    <ul class="counters plain">
+      {% for item in shown %}<li><span class="counter-num" data-count="{{ item | counterValue(collections, episodes) }}">{{ item | counterValue(collections, episodes) }}</span><span class="counter-label">{{ item.label }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+{% endmacro %}

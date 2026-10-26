@@ -1,0 +1,27 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <div>
+      <a class="wls-brand" href="/">{% mark 40 %}<span>{{ site.name }}</span></a>
+      <p class="site-footer__blurb">{{ site.tagline }}</p>
+    </div>
+    <nav aria-label="Footer">
+      <p class="label">Explore</p>
+      <ul class="plain">{% for item in nav %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}<li><a href="/start/">Start a circle</a></li></ul>
+    </nav>
+    <div>
+      <p class="label">Follow along</p>
+      <ul class="plain">
+        {% if site.social.youtube %}<li><a href="{{ site.social.youtube }}" rel="noopener me">YouTube</a></li>{% endif %}
+        {% if site.social.spotify %}<li><a href="{{ site.social.spotify }}" rel="noopener me">Spotify</a></li>{% endif %}
+        {% if site.social.apple %}<li><a href="{{ site.social.apple }}" rel="noopener me">Apple Podcasts</a></li>{% endif %}
+        {% if site.social.instagram %}<li><a href="{{ site.social.instagram }}" rel="noopener me">Instagram</a></li>{% endif %}
+        {% if site.social.x %}<li><a href="{{ site.social.x }}" rel="noopener me">X</a></li>{% endif %}
+        <li><a href="/feed.xml">Site feed</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap site-footer__fine">
+    <p>{{ site.footerNote }}</p>
+    <p>© {{ '' | currentYear }} {{ site.name }}. <a href="/ai-policy/">How we ask AI to use this site</a></p>
+  </div>
+</footer>

@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+---
+{% from "partials/macros.njk" import chip, resourceCard, episodeRow, artStyle, artClass %}
+{% set items = collections.resources | byProject(page.fileSlug) | sortProject %}
+{% set eps = episodes.episodes | epByProject(page.fileSlug) %}
+<section class="hero hero--project wls-art wls-art--{{ 'deep' if color == 'teal' or not color else color }}" style="{{ artStyle(page.fileSlug, projectsIndex[page.fileSlug]) }};--ring-reach:420px;--ring-gap:70px;--ring-w:3px;--lamp-r:52px">
+  <div class="wrap hero__inner">
+    <nav class="crumbs crumbs--on-art" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/projects/">Projects</a></nav>
+    <p class="label">Project</p>
+    <h1 class="display-hero hero__title">{{ title }}</h1>
+    <p class="lede hero__lede">{{ summary }}</p>
+    <p class="meta">{{ items.length }} {{ 'resource' if items.length == 1 else 'resources' }}{% if eps.length %} · {{ eps.length }} {{ 'episode' if eps.length == 1 else 'episodes' }}{% endif %}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    {% if content | stripTags %}<div class="prose prose--wide">{{ content | safe }}</div>{% endif %}
+    <h2 class="h2">Start here</h2>
+    {% if items.length %}
+    <ol class="project-list plain">
+      {% for r in items %}<li>{{ resourceCard(r, projectsIndex) }}</li>{% endfor %}
+    </ol>
+    {% else %}<p class="muted">The first resources in this project are being written. Check back soon.</p>{% endif %}
+    {% if eps.length %}
+    <h2 class="h2 section-gap">Listen</h2>
+    <div class="ep-list">{% for e in eps %}{{ episodeRow(e, projectsIndex) }}{% endfor %}</div>
+    {% endif %}
+  </div>
+</section>

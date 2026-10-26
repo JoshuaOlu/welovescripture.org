@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+kind: listing
+title: Read
+description: Study guides for friends, articles and resources for children, from We Love Scripture.
+permalink: /read/
+pagefindIgnore: true
+---
+{% from "partials/macros.njk" import resourceCard, chip %}
+{% set list = collections.read.concat(collections.gather, collections.kids) %}
+<section class="wrap section">
+  <header class="page-head"><h1 class="display">Read</h1><p class="lede">Guides to work through with friends, articles to read on your own, and resources for children.</p></header>
+  {% if list.length %}
+  <div class="filters" role="group" aria-label="Filter by type" data-filters>
+    <button class="wls-chip wls-chip--read is-on" type="button" data-filter="all">All</button>
+    <button class="wls-chip wls-chip--gather" type="button" data-filter="gather">{% icon 'gather' %}Guides</button>
+    <button class="wls-chip wls-chip--read" type="button" data-filter="read">{% icon 'read' %}Articles</button>
+    <button class="wls-chip wls-chip--kids" type="button" data-filter="kids">{% icon 'kids' %}Kids</button>
+  </div>
+  <div class="grid grid--3" data-filter-list>
+    {% for r in collections.resources %}{% if r.data.type == 'read' or r.data.type == 'gather' or r.data.type == 'kids' %}{{ resourceCard(r, projectsIndex) }}{% endif %}{% endfor %}
+  </div>
+  {% else %}<p class="muted">The first guides and articles are being written. <a class="wls-link" href="/listen/">Listen to the podcast</a> in the meantime.</p>{% endif %}
+</section>

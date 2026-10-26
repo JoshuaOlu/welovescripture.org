@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+kind: listing
+title: Watch
+description: Videos from We Love Scripture on YouTube, with notes for talking about them together.
+permalink: /watch/
+pagefindIgnore: true
+---
+{% from "partials/macros.njk" import resourceCard %}
+<section class="wrap section">
+  <header class="page-head"><h1 class="display">Watch</h1><p class="lede">Short videos on Scripture, made to start a conversation.</p>
+  <p><a class="wls-btn wls-btn--secondary" href="{{ site.social.youtube }}" rel="noopener me">Open our YouTube channel {% icon 'external' %}</a></p></header>
+  {% if collections.watch.length %}<div class="grid grid--3">{% for r in collections.watch %}{{ resourceCard(r, projectsIndex) }}{% endfor %}</div>
+  {% else %}<p class="muted">Videos will appear here as they are published. Subscribe on YouTube to be the first to know.</p>{% endif %}
+</section>

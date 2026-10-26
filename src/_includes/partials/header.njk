@@ -1,0 +1,13 @@
+<header class="site-header">
+  <div class="wrap site-header__bar">
+    <a class="wls-brand" href="/" aria-label="{{ site.name }}, home">{% mark 34 %}<span>{{ site.name }}</span></a>
+    <nav class="wls-nav" id="site-nav" aria-label="Main">
+      {% for item in nav %}<a href="{{ item.url }}"{% if page.url == item.url or (item.url != '/' and page.url.startsWith(item.url)) %} aria-current="page"{% endif %}>{{ item.label }}</a>{% endfor %}
+    </nav>
+    <div class="site-header__tools">
+      <a class="icon-btn" href="/search/" aria-label="Search">{% icon 'search' %}</a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark">{% icon 'moon', 'if-light' %}{% icon 'sun', 'if-dark' %}</button>
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Menu">{% icon 'menu' %}</button>
+    </div>
+  </div>
+</header>

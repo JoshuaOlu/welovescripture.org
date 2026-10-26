@@ -1,0 +1,85 @@
+/* We Love Scripture — component styles. Loads after tokens.css. Every value is a token. */
+*, *::before, *::after { box-sizing: border-box; }
+
+.wls-page { background: var(--paper); color: var(--ink); font-family: var(--font-ui); font-size: 16px; line-height: 24px; -webkit-font-smoothing: antialiased; }
+
+/* Fraunces: soft, friendly terminals on every display style */
+.display-hero, .display, .h1, .h2, .h3, .quote, .wls-soft { font-family: var(--font-display); font-optical-sizing: auto; font-variation-settings: "SOFT" 100, "WONK" 0; }
+.lede, .body, .verse { font-optical-sizing: auto; }
+
+/* Links */
+.wls-link { color: var(--link); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.wls-link:hover { text-decoration-thickness: 3px; }
+
+/* Focus: one ring for everything interactive */
+.wls-btn:focus-visible, .wls-link:focus-visible, .wls-nav a:focus-visible, .wls-card a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+/* Button */
+.wls-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-5); border: 2px solid transparent; border-radius: var(--radius-pill); font-family: var(--font-ui); font-size: 15px; line-height: 20px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+.wls-btn--primary { background: var(--action); color: var(--on-action); }
+.wls-btn--primary:hover { background: var(--action-hover); }
+.wls-btn--secondary { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.wls-btn--secondary:hover { background: var(--paper-sunk); }
+.wls-btn--lamp { background: var(--gold); color: var(--on-gold); }
+.wls-btn--lamp:hover { background: var(--paper); }
+.wls-btn--small { min-height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.wls-btn[disabled], .wls-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+
+/* Chip: resource type. Always icon + word. */
+.wls-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 8px; border-radius: var(--radius-pill); font-family: var(--font-ui); font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.wls-chip svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.wls-chip--read { background: var(--sage); color: var(--on-sage); }
+.wls-chip--watch { background: var(--blush); color: var(--on-blush); }
+.wls-chip--listen { background: var(--gold); color: var(--on-gold); }
+.wls-chip--gather { background: var(--teal); color: var(--on-teal); }
+.wls-chip--kids { background: var(--ember); color: var(--on-ember); }
+
+/* Lamp rings: the brand pattern. A gold lamp and rings that widen from it. */
+.wls-art { position: relative; overflow: hidden; background: var(--teal); color: var(--on-teal); }
+.wls-art--deep { background: var(--teal-deep); color: var(--on-teal); }
+.wls-art::before { content: ""; position: absolute; inset: 0; background: repeating-radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), transparent 0 var(--ring-gap, 30px), var(--gold) var(--ring-gap, 30px) calc(var(--ring-gap, 30px) + var(--ring-w, 2px))); opacity: .32; -webkit-mask-image: radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), #000 0 var(--ring-reach, 160px), transparent calc(var(--ring-reach, 160px) + 0.5px)); mask-image: radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), #000 0 var(--ring-reach, 160px), transparent calc(var(--ring-reach, 160px) + 0.5px)); }
+.wls-art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), var(--gold) 0 var(--lamp-r, 22px), transparent calc(var(--lamp-r, 22px) + 0.5px)); }
+.wls-art--ember { background: var(--ember); color: var(--on-ember); }
+.wls-art--ember::before { background: repeating-radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), transparent 0 var(--ring-gap, 30px), var(--on-ember) var(--ring-gap, 30px) calc(var(--ring-gap, 30px) + var(--ring-w, 2px))); }
+.wls-art--sage { background: var(--sage); color: var(--on-sage); }
+.wls-art--sage::before { background: repeating-radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), transparent 0 var(--ring-gap, 30px), var(--teal) var(--ring-gap, 30px) calc(var(--ring-gap, 30px) + var(--ring-w, 2px))); opacity: .22; }
+.wls-art--sage::after { background: radial-gradient(circle at var(--lamp-x, 78%) var(--lamp-y, 34%), var(--teal) 0 var(--lamp-r, 22px), transparent calc(var(--lamp-r, 22px) + 0.5px)); }
+
+/* Resource card */
+.wls-card { display: flex; flex-direction: column; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); color: var(--ink); }
+.wls-card .wls-art { aspect-ratio: 16 / 9; }
+.wls-card__body { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-5); }
+.wls-card__title { margin: 0; font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 0; font-size: 26px; line-height: 32px; font-weight: 600; }
+.wls-card__title a { color: inherit; text-decoration: none; }
+.wls-card__title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.wls-card__desc { margin: 0; color: var(--ink-muted); font-size: 16px; line-height: 24px; }
+.wls-card__meta { margin: 0; color: var(--ink-muted); font-size: 13px; line-height: 18px; font-weight: 500; }
+
+/* Passage block */
+.wls-passage { max-width: var(--measure-reading); padding: var(--space-5) var(--space-6); background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); }
+.wls-passage__ref { margin: 0 0 var(--space-3); font-family: var(--font-ui); font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); }
+.wls-passage__text { margin: 0; font-family: var(--font-reading); font-size: 20px; line-height: 34px; font-weight: 400; }
+.wls-passage__text sup { margin-right: 4px; font-family: var(--font-ui); font-size: 11px; line-height: 1; font-weight: 700; color: var(--accent-text); vertical-align: super; }
+.wls-passage__src { margin: var(--space-4) 0 0; font-size: 13px; line-height: 18px; font-weight: 500; color: var(--ink-muted); }
+
+/* Gather prompt: how a guide asks friends to share */
+.wls-prompt { max-width: var(--measure-reading); padding: var(--space-5) var(--space-6); border-radius: var(--radius-md); }
+.wls-prompt--talk { background: var(--sage); color: var(--on-sage); }
+.wls-prompt--pray { background: var(--teal); color: var(--on-teal); }
+.wls-prompt--sit { background: var(--blush); color: var(--on-blush); }
+.wls-prompt__label { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-3); font-family: var(--font-ui); font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.wls-prompt__label svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.wls-prompt__text { margin: 0; font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 0; font-size: 26px; line-height: 34px; font-weight: 500; font-style: italic; }
+
+/* Site header */
+.wls-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--paper); border-bottom: 1px solid var(--line); }
+.wls-brand { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--teal); text-decoration: none; font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 640; font-size: 22px; line-height: 22px; letter-spacing: -0.01em; }
+[data-theme="dark"] .wls-brand { color: var(--ink); }
+.wls-brand span { white-space: nowrap; }
+.wls-brand svg { height: 34px; width: auto; display: block; }
+.wls-nav { display: flex; align-items: center; gap: var(--space-5); font-family: var(--font-ui); font-size: 15px; font-weight: 600; }
+.wls-nav a { color: var(--ink); text-decoration: none; padding: var(--space-1) 0; border-bottom: 2px solid transparent; }
+.wls-nav a:hover, .wls-nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+
+/* Templates: fixed-size artboards, scaled by their container */
+.wls-board { position: relative; overflow: hidden; transform-origin: top left; }

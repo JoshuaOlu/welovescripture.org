@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>We Love Scripture · Console</title>
+<link rel="icon" href="/assets/img/icon-192.png">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/console.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <a class="side__brand" href="#/home"><img src="/assets/img/wls-mark-on-dark.svg" alt="" onerror="this.style.display='none'"><span>We Love Scripture<small>Console</small></span></a>
+    <nav id="nav"></nav>
+    <div class="side__foot"><button class="btn btn--lamp" id="publishBtn">Publish to the web</button><a class="side__link" id="previewLink" href="#/preview">Preview the site</a></div>
+  </aside>
+  <main class="main"><header class="top"><button class="menu" id="menu" aria-label="Menu">Menu</button><div id="crumb"></div><div id="topActions"></div></header><div id="view" class="view"></div></main>
+</div>
+<div id="toasts" aria-live="polite"></div>
+<div id="modal" class="modal" hidden></div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

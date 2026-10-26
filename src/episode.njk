@@ -1,0 +1,37 @@
+---
+layout: layouts/base.njk
+kind: episode
+pagination:
+  data: episodes.episodes
+  size: 1
+  alias: ep
+permalink: "/listen/{{ ep.slug }}/"
+eleventyComputed:
+  title: "{{ ep.title }}"
+---
+{% from "partials/macros.njk" import chip %}
+{% set proj = projectsIndex[ep.project] if ep.project else null %}
+<article class="wrap wrap--reading resource" data-type="listen">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/listen/">Listen</a></nav>
+  <header class="page-head">
+    {{ chip('listen') }}
+    <h1 class="display">{{ ep.title }}</h1>
+    <p class="meta">{% if ep.season %}Season {{ ep.season }}{% if ep.episode %}, episode {{ ep.episode }}{% endif %} · {% endif %}{{ ep.date | dateDisplay }} · {{ ep.minutes }} min{% if proj %} · Part of <a href="/projects/{{ ep.project }}/">{{ proj.title }}</a>{% endif %}</p>
+  </header>
+  <div class="player"><audio controls preload="none" src="{{ ep.audio }}"><a href="{{ ep.audio }}">Download the episode</a></audio></div>
+  <div class="prose">{{ ep.description | safe }}</div>
+  <div class="share" data-share>
+    <p class="label">Listen on</p>
+    <div class="share__row">
+      {% if ep.link %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ ep.link }}" rel="noopener">Spotify</a>{% endif %}
+      {% if site.social.apple %}<a class="wls-btn wls-btn--secondary wls-btn--small" href="{{ site.social.apple }}" rel="noopener me">Apple Podcasts</a>{% endif %}
+      <a class="wls-btn wls-btn--secondary wls-btn--small" href="https://wa.me/?text={{ (ep.title + ' ' + site.url + page.url) | urlencode }}" rel="noopener">WhatsApp</a>
+      <button class="wls-btn wls-btn--secondary wls-btn--small" type="button" data-copy="{{ site.url }}{{ page.url }}">{% icon 'copy' %}Copy link</button>
+    </div>
+  </div>
+  {% set i = pagination.pageNumber %}
+  <nav class="pager" aria-label="Episodes">
+    {% if pagination.href.next %}<a class="pager__item" href="{{ pagination.href.next }}"><span class="label">Earlier</span><span class="h4">{{ episodes.episodes[i + 1].title }}</span></a>{% else %}<span></span>{% endif %}
+    {% if pagination.href.previous %}<a class="pager__item pager__item--next" href="{{ pagination.href.previous }}"><span class="label">Later</span><span class="h4">{{ episodes.episodes[i - 1].title }}</span></a>{% endif %}
+  </nav>
+</article>

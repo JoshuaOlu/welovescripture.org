@@ -1,0 +1,7 @@
+node_modules/
+_site/
+.cache/
+trash/
+.DS_Store
+Thumbs.db
+.backups/

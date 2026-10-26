@@ -1,0 +1,14 @@
+{
+  "show": true,
+  "title": "By the numbers",
+  "items": [
+    { "id": "episodes", "label": "Podcast episodes", "source": "auto:episodes", "show": true },
+    { "id": "guides", "label": "Guides to gather around", "source": "auto:guides", "show": true },
+    { "id": "articles", "label": "Articles to read", "source": "auto:articles", "show": false },
+    { "id": "videos", "label": "Videos to watch", "source": "auto:videos", "show": true },
+    { "id": "projects", "label": "Projects", "source": "auto:projects", "show": false },
+    { "id": "circles", "label": "Circles gathering", "source": "manual", "value": 0, "show": false },
+    { "id": "youtube", "label": "YouTube subscribers", "source": "manual", "value": 0, "show": false },
+    { "id": "listens", "label": "Podcast plays", "source": "manual", "value": 0, "show": false }
+  ]
+}

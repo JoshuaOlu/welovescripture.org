@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+kind: listing
+title: Search
+description: Search guides, articles, videos and episodes on We Love Scripture.
+permalink: /search/
+pagefindIgnore: true
+noindex: true
+---
+<section class="wrap wrap--reading section">
+  <header class="page-head"><h1 class="display">Search</h1></header>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  <div id="search" class="search-box"></div>
+  <noscript><p>Search needs JavaScript. You can also browse the <a href="/read/">Read</a>, <a href="/watch/">Watch</a> and <a href="/listen/">Listen</a> pages.</p></noscript>
+  <script src="/pagefind/pagefind-ui.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (!window.PagefindUI) { document.getElementById('search').textContent = 'Search is available on the published site.'; return; }
+      var ui = new PagefindUI({ element: '#search', showImages: false, autofocus: true, resetStyles: false });
+      var q = new URLSearchParams(location.search).get('q'); if (q) ui.triggerSearch(q);
+    });
+  </script>
+</section>

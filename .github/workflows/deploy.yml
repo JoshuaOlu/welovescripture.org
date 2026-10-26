@@ -1,0 +1,61 @@
+name: Build and publish the site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * *"   # every morning, to pick up new podcast episodes
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install a browser for the printable PDFs
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .cache/og
+            .cache/pdf
+          key: cache-${{ hashFiles('lib/og.mjs', 'lib/pdf.mjs', 'src/assets/fonts/og/*') }}-${{ github.run_id }}
+          restore-keys: cache-${{ hashFiles('lib/og.mjs', 'lib/pdf.mjs', 'src/assets/fonts/og/*') }}-
+      - name: Build
+        run: npm run build
+        env:
+          SYNC_EPISODES: "1"
+          PDF: "1"
+      - name: Check the built site
+        run: npm run check
+        env:
+          CI: "true"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

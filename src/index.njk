@@ -1,0 +1,74 @@
+---
+layout: layouts/base.njk
+kind: home
+title: We Love Scripture
+pagefindIgnore: true
+---
+{% from "partials/macros.njk" import episodeTile, chip, resourceCard, episodeRow, socialButtons, counters %}
+<section class="hero wls-art wls-art--deep" style="--lamp-x:82%;--lamp-y:38%;--ring-gap:84px;--ring-w:3px;--lamp-r:60px;--ring-reach:560px">
+  <div class="wrap hero__inner">
+    <p class="label">Friends, Scripture, one table</p>
+    <h1 class="display-hero hero__title">Know God more.<br>Know each other more.</h1>
+    <p class="lede hero__lede">Guides, articles, videos and a podcast for friends who want to read Scripture together, tell each other their stories and pray.</p>
+    <div class="hero__cta">
+      <a class="wls-btn wls-btn--lamp" href="{{ '/read/' if collections.gather.length else '/start/' }}">{{ 'Start with a guide' if collections.gather.length else 'How to gather' }}</a>
+      <a class="wls-btn wls-btn--ghost-on-dark" href="/listen/">Listen to the podcast {% icon 'arrow' %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="circle-h">
+  <div class="wrap">
+    <h2 class="h2" id="circle-h">How a circle works</h2>
+    <ol class="steps plain">
+      <li><span class="steps__icon steps__icon--sage">{% icon 'read' %}</span><h3 class="h3">Read together</h3><p>Pick a guide and read the passage out loud, taking turns. Slow is good.</p></li>
+      <li><span class="steps__icon steps__icon--blush">{% icon 'talk' %}</span><h3 class="h3">Tell each other</h3><p>Every guide asks for a story, not an answer. This is how a group of friends gets to know each other.</p></li>
+      <li><span class="steps__icon steps__icon--teal">{% icon 'pray' %}</span><h3 class="h3">Pray together</h3><p>End by thanking God for something you saw in each other, and ask for what you need.</p></li>
+    </ol>
+  </div>
+</section>
+
+{% if collections.projects.length %}
+<section class="section section--band" aria-labelledby="proj-h">
+  <div class="wrap">
+    <div class="section-head"><h2 class="h2" id="proj-h">Projects</h2><a class="wls-link" href="/projects/">All projects</a></div>
+    <div class="grid grid--3">
+      {% for p in collections.projects | limit(3) %}
+      {% set items = collections.resources | byProject(p.fileSlug) %}
+      <article class="wls-card">
+        <div class="wls-art wls-art--{{ 'deep' if p.data.color == 'teal' or not p.data.color else p.data.color }}" style="--lamp-x:{{ p.data.lampX or 78 }}%;--lamp-y:{{ p.data.lampY or 34 }}%"></div>
+        <div class="wls-card__body"><p class="label">Project</p><h3 class="wls-card__title"><a href="{{ p.url }}">{{ p.data.title }}</a></h3><p class="wls-card__desc">{{ p.data.summary }}</p><p class="wls-card__meta">{{ items.length }} {{ 'resource' if items.length == 1 else 'resources' }}</p></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if collections.resources.length %}
+<section class="section" aria-labelledby="latest-h">
+  <div class="wrap">
+    <div class="section-head"><h2 class="h2" id="latest-h">Latest</h2><a class="wls-link" href="/read/">Read, watch and gather</a></div>
+    <div class="grid grid--3">{% for r in collections.resources | limit(6) %}{{ resourceCard(r, projectsIndex) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{% if episodes.episodes.length %}
+<section class="section section--band" aria-labelledby="ep-h">
+  <div class="wrap">
+    <div class="section-head"><h2 class="h2" id="ep-h">{% if episodes.featured.length %}Featured episodes{% else %}From the podcast{% endif %}</h2><a class="wls-link" href="/listen/">All {{ episodes.episodes.length }} episodes</a></div>
+    <div class="grid grid--3 ep-grid">{% for e in episodes.spotlight %}{{ episodeTile(e, projectsIndex) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{{ counters(counters, collections, episodes) }}
+
+<section class="section cta" aria-labelledby="follow-h">
+  <div class="wrap wrap--reading cta__inner">
+    <h2 class="h2" id="follow-h">Follow along</h2>
+    <p class="lede">New guides, videos and episodes appear on every platform.</p>
+    <div class="share__row">{{ socialButtons(site) }}</div>
+  </div>
+</section>

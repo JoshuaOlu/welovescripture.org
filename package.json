@@ -1,0 +1,28 @@
+{
+  "name": "welovescripture-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "WeLoveScripture.org: static site and local console",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "console": "node console/server.mjs",
+    "start": "node console/server.mjs",
+    "dev": "eleventy --serve --port=8090",
+    "build": "eleventy",
+    "check": "node tools/audit-colors.mjs && node tools/check-site.mjs"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.7",
+    "@resvg/resvg-js": "^2.6.2",
+    "adm-zip": "^0.5.16",
+    "fast-xml-parser": "^5.11.2",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^15.0.3",
+    "markdown-it-container": "^4.0.0",
+    "pagefind": "^1.5.2",
+    "satori": "^0.63.2"
+  }
+}
