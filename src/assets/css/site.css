@@ -60,14 +60,14 @@ a { color: var(--link); }
 .crumbs--on-art { color: inherit; margin-top: 0; }
 
 /* sections */
-.section { padding: var(--space-7) 0; }
+.section { padding-block: var(--space-7); }
 .section--band { background: var(--paper-sunk); }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
 .section-head .h2 { margin: 0; }
 .h2, .h3, .h4, .display, .h1 { margin: 0 0 var(--space-4); }
 .h2 { margin-bottom: var(--space-5); }
 .section-gap { margin-top: var(--space-7); }
-@media (max-width: 640px) { .section { padding: var(--space-6) 0; } .h2 { font-size: 28px; line-height: 34px; } .display { font-size: 38px; line-height: 42px; } .display-hero { font-size: 44px; line-height: 46px; } .lede { font-size: 19px; line-height: 30px; } .body { font-size: 17px; line-height: 28px; } }
+@media (max-width: 640px) { .section { padding-block: var(--space-6); } .h2 { font-size: 28px; line-height: 34px; } .display { font-size: 38px; line-height: 42px; } .display-hero { font-size: 44px; line-height: 46px; } .lede { font-size: 19px; line-height: 30px; } .body { font-size: 17px; line-height: 28px; } }
 .grid { display: grid; gap: var(--space-5); grid-template-columns: 1fr; }
 @media (min-width: 640px) { .grid--3 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 980px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } }
@@ -234,3 +234,19 @@ a { color: var(--link); }
 .ep-tile:hover .ep-tile__title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .ep-tile .wls-card__meta { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .ep-tile { transition: none; } .ep-tile:hover { transform: none; } }
+
+/* The gold button sits on teal in both themes: on hover it turns cream with dark text, readable everywhere. */
+.wls-btn--lamp:hover { background: var(--on-teal); color: var(--teal-deep); }
+
+/* Phones: the header must always fit, and nothing may push the page wider than the screen. */
+body { overflow-x: clip; }
+@media (max-width: 480px) {
+  .site-header__bar { gap: var(--space-3); }
+  .site-header .wls-brand { font-size: 19px; gap: var(--space-2); min-width: 0; }
+  .site-header .wls-brand svg { height: 30px; }
+}
+@media (max-width: 400px) {
+  .site-header .wls-brand { font-size: 17px; }
+  .site-header .wls-brand svg { height: 26px; }
+  .icon-btn { width: 40px; height: 40px; }
+}

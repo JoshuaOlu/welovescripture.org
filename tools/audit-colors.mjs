@@ -18,6 +18,7 @@ const pairs = [
   ['focus', 'paper', 3, 'focus ring'], ['focus', 'paper-raised', 3, 'focus ring on cards'], ['focus', 'paper-sunk', 3, 'focus ring on wells'],
   ['gold', 'teal-deep', 3, 'lamp on template ground'], ['ember-light', 'teal-deep', 3, 'right page on template ground'], ['on-teal', 'teal-deep', 3, 'left page on template ground'],
   ['ink-muted', 'paper-sunk', 4.5, 'captions'],
+  ['on-action', 'action-hover', 4.5, 'primary button on hover'], ['teal-deep', 'on-teal', 4.5, 'gold and outline buttons on hover'],
 ];
 let fails = 0;
 for (const th of themes) {

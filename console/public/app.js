@@ -103,14 +103,16 @@ async function Resources() {
   items.sort((a, b) => (b.data.draft ? 1 : 0) - (a.data.draft ? 1 : 0) || String(b.data.date).localeCompare(String(a.data.date)));
   view.innerHTML = `<div class="head"><div><h1>Resources</h1><p class="lede">Guides, articles, videos and kids' resources. Drafts show only to you until you switch them on.</p></div></div>
   <div class="field" style="max-width:360px"><input type="text" id="q" placeholder="Search by title" aria-label="Search"></div>
-  <div class="list" id="L">${items.length ? '' : '<div class="empty">Nothing here yet. Use the buttons above to start.</div>'}${items.map(i => `<a class="row" href="#/resources/edit/${i.id}" data-t="${esc((i.data.title || '').toLowerCase())}"><div class="row__main"><div class="row__t">${esc(i.data.title)}</div><div class="row__s">${esc(i.data.summary || 'No summary yet')}</div></div><span class="pill">${TYPES[i.data.type] || i.data.type}</span>${i.data.project ? `<span class="pill">${esc(pn[i.data.project] || i.data.project)}</span>` : ''}${draftPill(i.data)}</a>`).join('')}</div>`;
+  <div class="list" id="L">${items.length ? '' : '<div class="empty">Nothing here yet. Use the buttons above to start.</div>'}${items.map(i => `<a class="row" href="#/resources/edit/${i.id}" data-t="${esc((i.data.title || '').toLowerCase())}"><div class="row__main"><div class="row__t">${esc(i.data.title)}</div><div class="row__s">${esc(i.data.summary || 'No summary yet')}</div></div><span class="pill">${TYPES[i.data.type] || i.data.type}</span>${i.data.project ? `<span class="pill">${esc(pn[i.data.project] || i.data.project)}</span>` : ''}${draftPill(i.data)}<button class="btn btn--danger btn--sm" data-trash="${i.id}" aria-label="Move ${esc(i.data.title)} to the trash">Trash</button></a>`).join('')}</div>`;
+  $$('[data-trash]').forEach(b => b.onclick = async e => { e.preventDefault(); e.stopPropagation(); if (!confirm('Move this to the trash? It stays in the "trash" folder, so it can be recovered.')) return; await api('DELETE', `/items/resources/${b.dataset.trash}`); toast('Moved to trash'); refreshOverview(); Resources(); });
   $('#q').oninput = e => $$('#L .row').forEach(r => r.style.display = r.dataset.t.includes(e.target.value.toLowerCase()) ? '' : 'none');
 }
 async function Projects() {
   setTop('Projects', '<button class="btn btn--sm" id="np">New project</button>'); $('#np').onclick = () => newItem('project');
   const [ps, rs] = await Promise.all([api('GET', '/items/projects'), api('GET', '/items/resources')]);
   ps.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
-  view.innerHTML = `<div class="head"><div><h1>Projects</h1><p class="lede">A project is a series on one theme. Add resources to it by choosing the project in the resource.</p></div></div><div class="list">${ps.map(p => `<a class="row" href="#/projects/edit/${p.id}"><div class="row__main"><div class="row__t">${esc(p.data.title)}</div><div class="row__s">${esc(p.data.summary || '')}</div></div><span class="pill">${rs.filter(r => r.data.project === p.id).length} resources</span>${draftPill(p.data)}</a>`).join('') || '<div class="empty">No projects yet.</div>'}</div>`;
+  view.innerHTML = `<div class="head"><div><h1>Projects</h1><p class="lede">A project is a series on one theme. Add resources to it by choosing the project in the resource.</p></div></div><div class="list">${ps.map(p => `<a class="row" href="#/projects/edit/${p.id}"><div class="row__main"><div class="row__t">${esc(p.data.title)}</div><div class="row__s">${esc(p.data.summary || '')}</div></div><span class="pill">${rs.filter(r => r.data.project === p.id).length} resources</span>${draftPill(p.data)}<button class="btn btn--danger btn--sm" data-trash="${p.id}" aria-label="Move ${esc(p.data.title)} to the trash">Trash</button></a>`).join('') || '<div class="empty">No projects yet.</div>'}</div>`;
+  $$('[data-trash]').forEach(b => b.onclick = async e => { e.preventDefault(); e.stopPropagation(); if (!confirm('Move this project to the trash? Its resources stay, but will no longer belong to a project.')) return; await api('DELETE', `/items/projects/${b.dataset.trash}`); toast('Moved to trash'); refreshOverview(); Projects(); });
 }
 async function Pages() {
   const ps = await api('GET', '/items/pages'); setTop('Pages');
@@ -126,7 +128,7 @@ const FIELDS = {
 async function Editor(kind, id) {
   const [it, projects] = await Promise.all([api('GET', `/items/${kind}/${id}`), api('GET', '/items/projects')]);
   let data = { ...it.data }; const live = kind !== 'pages';
-  setTop(kind === 'resources' ? 'Resources › Edit' : kind === 'projects' ? 'Projects › Edit' : 'Pages › Edit', `<span class="hint" id="saved"></span><button class="btn btn--sm btn--ghost" id="focus" title="Hide everything except the writing">Focus</button><a class="btn btn--sm btn--ghost" href="#/${kind}">Back</a>${live ? '<label class="switch"><input type="checkbox" id="pub"> Published</label>' : ''}<button class="btn btn--sm" id="save">Save</button>`);
+  setTop(kind === 'resources' ? 'Resources › Edit' : kind === 'projects' ? 'Projects › Edit' : 'Pages › Edit', `<span class="hint" id="saved"></span><button class="btn btn--sm btn--ghost" id="focus" title="Hide everything except the writing">Focus</button><a class="btn btn--sm btn--ghost" href="#/${kind}">Back</a>${live ? '<button class="btn btn--sm btn--danger" id="del2" title="Move this to the trash">Delete</button>' : ''}${live ? '<label class="switch"><input type="checkbox" id="pub"> Published</label>' : ''}<button class="btn btn--sm" id="save">Save</button>`);
   const opts = {
     type: Object.entries(TYPES).map(([v, l]) => [v, l]), project: [['', 'No project'], ...projects.map(p => [p.id, p.data.title])],
     color: [['teal', 'Teal'], ['ember', 'Ember'], ['sage', 'Sage']]
@@ -169,7 +171,8 @@ async function Editor(kind, id) {
   body.addEventListener('drop', e => { const f = [...(e.dataTransfer?.files || [])].find(x => x.type.startsWith('image/')); if (f) { e.preventDefault(); addFile(f); } });
   $('#save').onclick = e => busy(e.currentTarget, () => save().catch(er => toast(er.message, 1)));
   document.onkeydown = e => { if ((e.ctrlKey || e.metaKey) && e.key === 's' && $('#save')) { e.preventDefault(); $('#save').click(); } };
-  $('#del')?.addEventListener('click', async () => { if (!confirm('Move this to the trash? It stays in the "trash" folder, so it can be recovered.')) return; await api('DELETE', `/items/${kind}/${id}`); dirty = false; toast('Moved to trash'); go(`#/${kind}`); });
+  const trashIt = async () => { if (!confirm('Move this to the trash? It stays in the "trash" folder, so it can be recovered.')) return; await api('DELETE', `/items/${kind}/${id}`); dirty = false; clearInterval(Editor.timer); toast('Moved to trash'); go(`#/${kind}`); };
+  $('#del')?.addEventListener('click', trashIt); $('#del2')?.addEventListener('click', trashIt);
   $$('.tb button').forEach(b => b.onclick = () => toolbar(b.dataset.a, body, mark, drawPv));
   sc(); wc(); drawPv(); drawOg();
 }
