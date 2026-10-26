@@ -228,7 +228,7 @@ a { color: var(--link); }
 .ep-h { margin: var(--space-6) 0 var(--space-4); } .ep-count { font-family: var(--font-ui); font-size: 15px; font-weight: 500; letter-spacing: 0; }
 .ep-tile { display: flex; flex-direction: column; overflow: hidden; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); color: var(--ink); text-decoration: none; transition: transform .15s ease, box-shadow .15s ease; }
 .ep-tile:hover { transform: translateY(-2px); } .ep-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-.ep-tile__img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; background: var(--teal-deep); }
+.ep-tile__img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; background: var(--teal-deep); }
 .ep-tile__body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-5); }
 .ep-tile__title { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 0; font-size: 22px; line-height: 28px; font-weight: 600; }
 .ep-tile:hover .ep-tile__title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }

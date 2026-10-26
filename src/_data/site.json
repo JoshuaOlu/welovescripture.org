@@ -23,6 +23,8 @@
   "guideHowTo": "Gather with friends. Read the passage out loud, taking turns. Answer the questions to each other, not to the guide. End by praying for one another.",
   "footerNote": "Scripture quotations are from the King James Version, which is in the public domain.",
   "listen": {
-    "perPage": 12
+    "perPage": 12,
+    "defaultImage": "auto",
+    "defaultImageUrl": ""
   }
 }

@@ -30,7 +30,7 @@
 
 {% macro episodeTile(e, projects) %}
 <a class="ep-tile" href="/listen/{{ e.slug }}/">
-  <img class="ep-tile__img" src="/og/listen-{{ e.slug }}.png" alt="" width="1200" height="630" loading="lazy" decoding="async">
+  <img class="ep-tile__img" src="{{ e.previewSrc }}" alt="" width="1200" height="630" loading="lazy" decoding="async">
   <span class="ep-tile__body">
     <span class="wls-card__meta">{{ e.date | dateDisplay }} · {{ e.minutes }} min{% if e.project and projects[e.project] %} · {{ projects[e.project].title }}{% endif %}</span>
     <span class="ep-tile__title">{{ e.title }}</span>
